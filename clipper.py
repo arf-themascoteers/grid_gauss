@@ -4,6 +4,7 @@ from rasterio.warp import transform_bounds
 from rasterio.crs import CRS
 import math
 import pandas as pd
+import cv2
 
 
 class Clipper:
@@ -51,6 +52,8 @@ class Clipper:
             window = Window(column, row, width, height)
 
             data = src.read(window=window)
+            data = cv2.GaussianBlur(data, (3, 3), 0)
+
             profile = src.profile
             profile.update({
                 'height': window.height,

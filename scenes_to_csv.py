@@ -36,7 +36,6 @@ class SceneToCSVs:
             df.to_csv(complete_path, index=False)
             CSVProcessor.aggregate(complete_path, ag_path)
             CSVProcessor.make_ml_ready(ag_path, ml_path)
-            CSVProcessor.gridify(ml_path, grid_path)
             print(f"Done scene {index+1}: {scene}")
 
     def create_table(self, clip_path):

@@ -2,6 +2,10 @@ import os
 from base_path import BASE_PATH
 from clipper import Clipper
 from s2_bands import S2Bands
+import imageio
+from PIL import Image
+import cv2
+import numpy as np
 
 
 class SceneProcessor:
@@ -30,6 +34,12 @@ class SceneProcessor:
         dest_band_path = os.path.join(dest, f"{band}.jp2")
         clipper = Clipper(source_band_path, dest_band_path, self.source_csv_path)
         clipper.clip()
+
+        img = Image.open(dest_band_path)
+        img_array = np.array(img)
+        blur_img = cv2.GaussianBlur(img_array, (3, 3), 0)
+        imageio.imwrite(dest_band_path, blur_img)
+
         return band
 
     def clip_band(self, resolution_path, clip_path, target_band):
